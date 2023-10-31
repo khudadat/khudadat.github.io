@@ -32,24 +32,24 @@
             margin-bottom: 1rem;
             border-bottom: 6px solid rgb(246, 178, 59);
         }
+        .red{
+            min-height: 2rem;
+            background-color: blue;
+        }
+        h6{
+            color:rgba(18, 28, 28, 0.201);
+            margin: 0;
+            padding: 0;
+            
+        }
     </style>
 </head>
 <body>
     <h1>مُولِّد اختبار تجريبي عشوائي</h1>
 
     <div class="input-group">
-        <label for="groupSizes">حجم كل مجموعة (بالأعداد):</label>
-        <input type="text" id="groupSizes" value="92,200,100">
-    </div>
-
-    <div class="input-group">
         <label for="imagesToSelect">عدد الصور للاختيار:</label>
         <input type="number" id="imagesToSelect" value="30">
-    </div>
-
-    <div class="input-group">
-        <label for="groupRange">نطاق الوحدات (مثال: 1-4 أو 1,2,3):</label>
-        <input type="text" id="groupRange" value="1-4">
     </div>
 
     <div class="button-container">
@@ -57,22 +57,22 @@
     </div>
 
     <script>
-        function selectRandomImages(group, imagesToSelect, imagesPerGroup) {
+        function selectRandomImages(imagesToSelect) {
             const selectedImagesForGroup = [];
 
             for (let i = 0; i < imagesToSelect; i++) {
                 let randomIndex;
                 let randomImage;
                 do {
-                    randomIndex = Math.floor(Math.random() * imagesPerGroup) + 1;
-                    randomImage = `g${group}/math_0${group}_${randomIndex}.jpg`;
+                    randomIndex = Math.floor(Math.random() * 586) + 1; // Assuming there are 586 images in the 'g5' folder
+                    randomImage = `g5/math_01_${randomIndex}.jpg`; // Update the path to match the 'g5' folder
                 } while (selectedImagesForGroup.includes(randomImage));
 
                 let img = new Image();
 
                 img.onerror = function() {
                     // If an error occurs (image doesn't exist), try again with a different index
-                    selectRandomImages(group, imagesToSelect, imagesPerGroup);
+                    selectRandomImages(imagesToSelect);
                 };
 
                 img.src = randomImage;
@@ -84,26 +84,9 @@
 
         function displayImages() {
             // Retrieve values from input fields
-            const groupSizes = document.getElementById('groupSizes').value.split(',').map(Number);
             const imagesToSelect = parseInt(document.getElementById('imagesToSelect').value);
-            const groupRange = document.getElementById('groupRange').value;
 
-            let selectedGroups = [];
-            if (groupRange.includes('-')) {
-                const [start, end] = groupRange.split('-').map(Number);
-                selectedGroups = Array.from({ length: end - start + 1 }, (_, i) => i + start);
-            } else {
-                selectedGroups = groupRange.split(',').map(Number);
-            }
-
-            const selectedImages = [];
-
-            for (let i of selectedGroups) {
-                const imagesPerGroup = groupSizes[i - 1]; // Adjust index
-                const availableImages = Array.from({ length: imagesPerGroup }, (_, j) => j + 1);
-                const selectedImagesForGroup = selectRandomImages(i, imagesToSelect, imagesPerGroup);
-                selectedImages.push(...selectedImagesForGroup);
-            }
+            const selectedImages = selectRandomImages(imagesToSelect);
 
             const outputDiv = document.createElement('div');
             outputDiv.innerHTML = `<h2>الوحدات المحددة</h2>`;
@@ -111,8 +94,11 @@
             for (const image of selectedImages) {
                 const imgElement = document.createElement('img');
                 imgElement.src = image;
+                const imgscr = document.createElement('h6');
+                imgscr.innerText = imgElement.src
 
                 outputDiv.appendChild(imgElement);
+                outputDiv.appendChild(imgscr);
                 const imgLine = document.createElement('div');
                 imgLine.classList= 'red';
                 outputDiv.appendChild(imgLine);
