@@ -64,8 +64,8 @@
                 let randomIndex;
                 let randomImage;
                 do {
-                    randomIndex = Math.floor(Math.random() * 586) + 1; // Assuming there are 586 images in the 'g5' folder
-                    randomImage = `g5/math_01_${randomIndex}.jpg`; // Update the path to match the 'g5' folder
+                    randomIndex = Math.floor(Math.random() * 12) + 1; // Assuming there are 586 images in the 'g5' folder
+                    randomImage = `temp/math_01_${randomIndex}.jpg`; // Update the path to match the 'g5' folder
                 } while (selectedImagesForGroup.includes(randomImage));
 
                 let img = new Image();
