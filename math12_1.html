@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار تدريبي</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+    text-align: right;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="number"] {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .checkbox-group {
+    margin-top: 5px;
+  }
+
+  input[type="checkbox"] {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+
+  .checkbox-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .red{
+    min-height: 2rem;
+    background-color: blue;
+}
+</style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>اختبار تدريبي</h2>
+    
+      <div class="form-group">
+        <label for="numOfQuestions">عدد الأسئلة</label>
+        <input type="number" id="numOfQuestions" name="numOfQuestions" min="1" max="50" required>
+      </div>
+      <div class="form-group">
+        <label>الوحدات</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="unit1" name="units" value="1">
+          <label for="unit1" class="checkbox-label">الوحدة 1</label><br>
+          <input type="checkbox" id="unit2" name="units" value="4">
+          <label for="unit2" class="checkbox-label">الوحدة 2</label><br>
+          <input type="checkbox" id="unit3" name="units" value="9">
+          <label for="unit3" class="checkbox-label">الوحدة 3</label><br>
+          <input type="checkbox" id="unit4" name="units" value="16">
+          <label for="unit4" class="checkbox-label">الوحدة 4</label><br>
+          <input type="checkbox" id="allUnits" name="allUnits" value="30">
+          <label for="allUnits" class="checkbox-label">الكل</label>
+        </div>
+      </div>
+      <button onclick="displayImages()">إنشاء الاختبار</button>
+    </div>
+    <div id="questions"></div>
+<script>
+    let unitsNumberOfQuestions = {
+        '01': 101,
+        '02': 205,
+        '03': 92,
+        '04': 109
+      };
+    function selectRandomImages(imagesToSelect,unitsfolders) {
+        let selectedImagesForGroup = [];
+        let subtotalq = 0
+        for(let j=0;j<unitsfolders.length;j++){
+            console.log(imagesToSelect,unitsNumberOfQuestions[unitsfolders[j]])
+            subtotalq += parseInt(unitsNumberOfQuestions[unitsfolders[j]])
+            console.log(subtotalq)
+        }
+        let unitfraction = []
+        for(let i=0;i<unitsfolders.length;i++){
+console.log(Math.round(parseInt((unitsNumberOfQuestions[unitsfolders[i]])) /subtotalq *imagesToSelect))
+unitfraction.push(Math.round(parseInt((unitsNumberOfQuestions[unitsfolders[i]])) /subtotalq *imagesToSelect))
+    }
+    console.log(unitfraction)
+        for (let i = 0; i < imagesToSelect; i++) {
+            let randomIndex;
+            let randomImage;
+            let cnt = 0
+            for(let i = 0; i < unitsfolders.length; i++){
+                
+            do {
+                randomIndex = Math.floor(Math.random() * unitsNumberOfQuestions[unitsfolders[i]]) + 1; // Assuming there are 586 images in the 'g5' folder
+                randomImage = `${unitsfolders[i]}/math_${unitsfolders[i]}_${randomIndex}.jpg`;
+            
+            } while (selectedImagesForGroup.includes(randomImage));
+
+            let img = new Image();
+
+            img.onerror = function() {
+                // If an error occurs (image doesn't exist), try again with a different index
+                selectRandomImages(imagesToSelect);
+            };
+
+            img.src = randomImage;
+            selectedImagesForGroup.push(randomImage);
+            cnt++
+            console.log(cnt)
+        }
+    }
+    let randomElements = getRandomElements(selectedImagesForGroup, imagesToSelect);
+console.log(randomElements);
+selectedImagesForGroup = randomElements
+        return selectedImagesForGroup;
+    }
+
+    function displayImages() {
+        questions.innerHTML= ''
+        let whichunits = 0
+        let unitsfolders = []
+        // Retrieve values from input fields
+        const imagesToSelect = parseInt(document.getElementById('numOfQuestions').value);
+
+        const unit1 = document.getElementById('unit1');
+        unit1.checked ? unitsfolders.push('01') : whichunits
+        const unit2 = document.getElementById('unit2');
+        unit2.checked ? unitsfolders.push('02') : whichunits
+        const unit3 = document.getElementById('unit3');
+        unit3.checked ? unitsfolders.push('03') : whichunits
+        const unit4 = document.getElementById('unit4');
+        unit4.checked ? unitsfolders.push('04') : whichunits
+        
+        const allUnits = document.getElementById('allUnits');
+        allUnits.checked ? unitsfolders.push('01','02','03','04') : whichunits
+       
+        unitsfolders = [...new Set(unitsfolders)]
+        
+        
+        const selectedImages = selectRandomImages(imagesToSelect,unitsfolders);
+
+        const outputDiv = document.createElement('div');
+        outputDiv.innerHTML = ``;
+        outputDiv.innerHTML = `<h2>الوحدات المحددة</h2>`;
+
+        for (const image of selectedImages) {
+            const imgElement = document.createElement('img');
+            imgElement.src = image;
+            const imgscr = document.createElement('h6');
+            imgscr.innerText = imgElement.src
+
+            outputDiv.appendChild(imgElement);
+            outputDiv.appendChild(imgscr);
+            const imgLine = document.createElement('div');
+            imgLine.classList= 'red';
+            outputDiv.appendChild(imgLine);
+        }
+
+        questions.appendChild(outputDiv);
+    }
+    function getRandomElements(arr, num) {
+        let shuffled = arr.slice(0), i = arr.length, min = i - num, temp, index;
+        while (i-- > min) {
+          index = Math.floor((i + 1) * Math.random());
+          temp = shuffled[index];
+          shuffled[index] = shuffled[i];
+          shuffled[i] = temp;
+        }
+        return shuffled.slice(min);
+      }
+</script>
+  </div>
+</body>
+</html>
