@@ -1,111 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selector</title>
+    <title>Main Page</title>
     <style>
-        .input-group {
-            margin-bottom: 1rem;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            transition: all 0.3s ease;
         }
-        .input-group label {
-            font-weight: bold;
-        }
-        .input-group input {
-            width: 150px;
-            margin-left: 1rem;
-        }
-        .button-container {
-            margin-top: 2rem;
-        }
-        .red{
-            background-color: rgb(125, 134, 254);
-            min-height: .5rem;
-            margin: 0.75;
-        }
-        h1,h2{
-            color:rgb(7, 135, 190);
-            margin: 0;
-            padding: 0;
-        }
-        h2{
-            margin-bottom: 1rem;
-            border-bottom: 6px solid rgb(246, 178, 59);
-        }
-        .red{
-            min-height: 2rem;
-            background-color: blue;
-        }
-        h6{
-            color:rgba(18, 28, 28, 0.201);
-            margin: 0;
-            padding: 0;
+        .subpage-link {
+            background: #212c80;
+            width:40%;
             
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #007BFF;
+            margin: 10px;
+            border: 1px solid #007BFF;
+            padding: 0.5rem;
+            border-radius: 0.8rem;
+            box-shadow: #08dfdf93 0px 0px 20px 2px;
+        }
+        .subpage-link:hover {
+            font-size: 1.1rem;
+            text-decoration: none;
+            color: #4d535a;
+            margin: 10px;
+            border: thin solid #131414;
+            padding: 0.5rem;
+            border-radius: 1.2rem;
+        }
+        .cont{
+            width: 100%;
+            margin: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        .cont *{
+            margin: 0.8rem;
         }
     </style>
 </head>
 <body>
     <h1>مُولِّد اختبار تجريبي عشوائي</h1>
+    <p>هذا العمل هو لمساعدة في إنشاء اختبار تدريبي من الأسئلة المخزنة للمواضيع. يمكنك المساهمة في الأسئلة إذا كان لديك أي سؤال، يرجى إرساله لي على هذا البريد الإلكتروني: khudadatbaluch@gmail.com</p>
+    <div class="cont">
+        <a href="math12_1.html" class="subpage-link">Math 12 t1</a>
+        <a href="math12_1.html" class="subpage-link">Math 12 t1</a>
 
-    <div class="input-group">
-        <label for="imagesToSelect">عدد الصور للاختيار:</label>
-        <input type="number" id="imagesToSelect" value="30">
     </div>
-
-    <div class="button-container">
-        <button onclick="displayImages()">إنشاء الاختبار</button>
-    </div>
-
     <script>
-        function selectRandomImages(imagesToSelect) {
-            const selectedImagesForGroup = [];
-
-            for (let i = 0; i < imagesToSelect; i++) {
-                let randomIndex;
-                let randomImage;
-                do {
-                    randomIndex = Math.floor(Math.random() * 12) + 1; // Assuming there are 586 images in the 'g5' folder
-                    randomImage = `temp/math_01_${randomIndex}.jpg`; // Update the path to match the 'g5' folder
-                } while (selectedImagesForGroup.includes(randomImage));
-
-                let img = new Image();
-
-                img.onerror = function() {
-                    // If an error occurs (image doesn't exist), try again with a different index
-                    selectRandomImages(imagesToSelect);
-                };
-
-                img.src = randomImage;
-                selectedImagesForGroup.push(randomImage);
-            }
-
-            return selectedImagesForGroup;
-        }
-
-        function displayImages() {
-            // Retrieve values from input fields
-            const imagesToSelect = parseInt(document.getElementById('imagesToSelect').value);
-
-            const selectedImages = selectRandomImages(imagesToSelect);
-
-            const outputDiv = document.createElement('div');
-            outputDiv.innerHTML = `<h2>الوحدات المحددة</h2>`;
-
-            for (const image of selectedImages) {
-                const imgElement = document.createElement('img');
-                imgElement.src = image;
-                const imgscr = document.createElement('h6');
-                imgscr.innerText = imgElement.src
-
-                outputDiv.appendChild(imgElement);
-                outputDiv.appendChild(imgscr);
-                const imgLine = document.createElement('div');
-                imgLine.classList= 'red';
-                outputDiv.appendChild(imgLine);
-            }
-
-            document.body.appendChild(outputDiv);
-        }
+        // JavaScript code (if needed)
     </script>
 </body>
 </html>
